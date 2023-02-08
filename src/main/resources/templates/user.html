@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>User Info</title>
+</head>
+<body>
+<table th:border="1">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Age</th>
+        <th>Email</th>
+        <th>Role</th>
+
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:object="${user}">
+        <td th:text="${user.getId()}"></td>
+        <td th:text = "${user.getUserName()}"></td>
+        <td th:text="${user.getLastName()}"></td>
+        <td th:text="${user.getAge()}"></td>
+        <td th:text="${user.getEmail()}"></td>
+        <td>
+           <p  th:each = "role: ${user.getRolesSet()}" th:text = "${role.getRoleNameNoPrefix()}"> </p>
+
+
+        </td>
+    </tr>
+    </tbody>
+</table>
+<form th:action="@{/logout}" method="post">
+    <input type="submit" value="Sign Out"/>
+</form>

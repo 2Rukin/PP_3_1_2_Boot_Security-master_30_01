@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create new user</title>
+</head>
+<body>
+
+
+<form th:action="@{/new}" th:object="${user}" th:method="POST">
+
+    <label for="userName">Enter First Name: </label>
+    <input type="text" th:field="*{userName}" id="userName"/>
+    <br/>
+    <label for="lastName">Enter Last Name: </label>
+    <input type="text" th:field="*{lastName}" id="lastName"/>
+    <br/>
+    <label for="email">Enter email: </label>
+    <input type="email" th:field="*{email}" id="email"/>
+    <br/>
+    <label for="password">Enter password: </label>
+    <input type="password" th:field="*{password}" id="password"/>
+    <br/>
+    <label for="age">Enter age: </label>
+    <input type="number" th:field="*{age}" id="age"/>
+    <br/>
+
+
+    <label for="roles"><b>Role</b></label>
+    <select th:field="*{rolesSet}"  multiple class="form-control form-control-sm" id="roles" name="roles" size="10"
+            required>
+        <option th:each="role: ${roles}"
+                th:value="${role.getId()}"
+                th:text="${role.getRoleNameNoPrefix()}"
+                >
+
+        </option>
+    </select>
+
+
+    <input type="submit" value="Create"/>
+
+</form>
+<br/>
+<form th:method="GET" th:action="@{/admin}">
+    <input type="submit" value="Back"/>
+</form>
+<form th:action="@{/logout}" method="post">
+    <input type="submit" value="Sign Out"/>
+</form>
+
+</body>
+</html>
