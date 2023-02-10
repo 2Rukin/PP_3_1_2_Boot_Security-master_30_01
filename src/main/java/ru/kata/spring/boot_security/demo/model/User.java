@@ -31,7 +31,7 @@ public class User implements UserDetails {
     private Integer age;
 
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinTable(
             name = "users_roles",
             joinColumns = @JoinColumn(name = "users_id"),
@@ -44,11 +44,11 @@ public class User implements UserDetails {
 
     }
 
-    public User(String userName, String lastName, String email, String password, int age) {
+    public User(String userName, String lastName, String email, int age) {
         this.userName = userName;
         this.lastName = lastName;
         this.email = email;
-        this.password = password;
+//        this.password = password;
         this.age = age;
     }
 

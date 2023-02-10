@@ -1,5 +1,6 @@
 package ru.kata.spring.boot_security.demo.service;
 
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -50,23 +51,20 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getUserById(int id) {
         Optional<User> getUserbyId = userRepository.findById(id);
+        Hibernate.initialize(getUserbyId.get().getRolesSet());
         return getUserbyId.orElse(null);
     }
     @Transactional
     @Override
     public void updateUser(int id, User updateUser) {
-
-        User user = userRepository.getById(id);
-
-        user.setUserName(updateUser.getUserName());
-        user.setLastName(updateUser.getLastName());
-        user.setEmail(updateUser.getEmail());
-        user.setRolesSet(updateUser.getRolesSet());
-        user.setAge(updateUser.getAge());
-        if (!user.getPassword().equals(updateUser.getPassword())) {
-            user.setPassword(encoder.encode(updateUser.getPassword()));
+        if(updateUser.getPassword().equals("")){
+            updateUser.setPassword(getUserById(id).getPassword());
+        } else {
+            updateUser.setPassword(encoder.encode(updateUser.getPassword()));
         }
-        userRepository.save(user);
+
+        updateUser.setId(id);
+        userRepository.save(updateUser);
     }
     @Transactional
     @Override
